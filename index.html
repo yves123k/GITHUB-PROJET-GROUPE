@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Café Numérique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --bg:#0a0a0c;
+      --bg2:#111217;
+      --panel:#151821;
+      --panel2:#1b1f2a;
+      --line:rgba(255,255,255,0.08);
+      --text:#ffffff;
+      --muted:#b7bcc8;
+      --gold:#d29a49;
+      --gold-dark:#8c5b1b;
+      --coffee:#6f4a2d;
+      --coffee-light:#b67b4b;
+      --shadow:0 25px 60px rgba(0,0,0,0.45);
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:"Inter",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(210,154,73,0.12), transparent 25%),
+        radial-gradient(circle at 85% 15%, rgba(255,255,255,0.05), transparent 20%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .container{
+      width:min(1180px, 92%);
+      margin:auto;
+    }
+
+    section{
+      padding:100px 0;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(12px);
+      background:rgba(10,10,12,0.7);
+      border-bottom:1px solid var(--line);
+    }
+
+    .navbar{
+      min-height:82px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      font-weight:800;
+      letter-spacing:0.5px;
+      font-size:1.05rem;
+    }
+
+    .logo-mark{
+      width:46px;
+      height:46px;
+      border:1px solid rgba(210,154,73,0.35);
+      background:linear-gradient(135deg, rgba(210,154,73,0.2), rgba(255,255,255,0.03));
+      display:grid;
+      place-items:center;
+      box-shadow:var(--shadow);
+    }
+
+    .logo-mark span{
+      font-size:1.2rem;
+      color:var(--gold);
+    }
+
+    .nav-links{
+      list-style:none;
+      display:flex;
+      gap:30px;
+      color:var(--muted);
+      font-weight:500;
+    }
+
+    .nav-links a:hover{
+      color:var(--gold);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:14px 22px;
+      border-radius:0;
+      font-weight:700;
+      transition:0.25s ease;
+      border:1px solid transparent;
+    }
+
+    .btn-outline{
+      border-color:rgba(255,255,255,0.14);
+      color:var(--text);
+      background:rgba(255,255,255,0.02);
+    }
+
+    .btn-outline:hover{
+      border-color:var(--gold);
+      color:var(--gold);
+    }
+
+    .btn-gold{
+      background:linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color:#111;
+      box-shadow:0 15px 35px rgba(210,154,73,0.22);
+    }
+
+    .btn-gold:hover{
+      transform:translateY(-2px);
+      filter:brightness(1.03);
+    }
+
+    .hero{
+      min-height:calc(100vh - 82px);
+      display:flex;
+      align-items:center;
+      position:relative;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.08fr 0.92fr;
+      gap:42px;
+      align-items:center;
+      padding:70px 0;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border:1px solid var(--line);
+      border-radius:0;
+      background:rgba(255,255,255,0.02);
+      color:var(--gold);
+      margin-bottom:22px;
+      font-size:0.92rem;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+    }
+
+    h1{
+      font-size:clamp(3rem, 6vw, 6rem);
+      line-height:0.95;
+      font-weight:900;
+      letter-spacing:-0.04em;
+      margin-bottom:24px;
+      text-transform:uppercase;
+    }
+
+    h1 .gold{
+      color:var(--gold);
+    }
+
+    .hero-text{
+      max-width:640px;
+      color:var(--muted);
+      font-size:1.05rem;
+      line-height:1.8;
+      margin-bottom:34px;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      margin-bottom:38px;
+    }
+
+    .hero-metrics{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
+      max-width:700px;
+    }
+
+    .metric{
+      padding:18px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border-radius:0;
+    }
+
+    .metric h3{
+      font-size:1.55rem;
+      color:var(--gold);
+      margin-bottom:6px;
+    }
+
+    .metric p{
+      color:var(--muted);
+      font-size:0.92rem;
+    }
+
+    .visual{
+      position:relative;
+      min-height:620px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .visual-panel{
+      width:100%;
+      max-width:520px;
+      min-height:560px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)),
+        linear-gradient(135deg, #12141b, #0e1016);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      padding:28px;
+    }
+
+    .visual-panel::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size:30px 30px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+      pointer-events:none;
+    }
+
+    .panel-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:30px;
+      position:relative;
+      z-index:2;
+    }
+
+    .panel-label{
+      color:var(--gold);
+      font-size:0.85rem;
+      text-transform:uppercase;
+      letter-spacing:0.2em;
+      font-weight:700;
+    }
+
+    .panel-chip{
+      padding:8px 12px;
+      border:1px solid rgba(210,154,73,0.28);
+      background:rgba(210,154,73,0.08);
+      color:var(--gold);
+      font-size:0.82rem;
+      border-radius:0;
+      font-weight:700;
+    }
+
+    .coffee-stage{
+      position:relative;
+      height:360px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:2;
+    }
+
+    .glow{
+      position:absolute;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(210,154,73,0.28), transparent 65%);
+      filter:blur(6px);
+    }
+
+    .cup-wrap{
+      position:relative;
+      width:230px;
+      height:230px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .cup{
+      width:150px;
+      height:120px;
+      border:6px solid var(--gold);
+      border-top-width:8px;
+      position:relative;
+      background:linear-gradient(to top, #3b2415 0%, #724727 58%, #a86a3d 100%);
+    }
+
+    .cup::before{
+      content:"";
+      position:absolute;
+      right:-42px;
+      top:26px;
+      width:38px;
+      height:50px;
+      border:6px solid var(--gold);
+      border-left:none;
+    }
+
+    .cup::after{
+      content:"";
+      position:absolute;
+      left:-16px;
+      right:-16px;
+      bottom:-16px;
+      height:8px;
+      background:rgba(255,255,255,0.08);
+    }
+
+    .steam{
+      position:absolute;
+      top:-60px;
+      width:10px;
+      height:60px;
+      background:linear-gradient(to top, rgba(255,255,255,0.38), transparent);
+      filter:blur(1px);
+      animation:steam 3s infinite ease-in-out;
+    }
+
+    .steam.one{ left:34px; animation-delay:0s; }
+    .steam.two{ left:68px; animation-delay:0.7s; }
+    .steam.three{ left:102px; animation-delay:1.4s; }
+
+    @keyframes steam{
+      0%{ transform:translateY(8px); opacity:0; }
+      30%{ opacity:.7; }
+      100%{ transform:translateY(-28px); opacity:0; }
+    }
+
+    .floating-card{
+      position:absolute;
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      padding:16px 18px;
+      min-width:170px;
+      z-index:3;
+      backdrop-filter:blur(6px);
+    }
+
+    .floating-card h4{
+      color:var(--gold);
+      font-size:0.82rem;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      margin-bottom:8px;
+    }
+
+    .floating-card p{
+      color:var(--muted);
+      font-size:0.92rem;
+      line-height:1.5;
+    }
+
+    .card-1{
+      top:110px;
+      left:-10px;
+    }
+
+    .card-2{
+      right:-5px;
+      bottom:105px;
+    }
+
+    .bottom-strip{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+      position:relative;
+      z-index:2;
+    }
+
+    .strip-box{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,0.025);
+      padding:14px;
+    }
+
+    .strip-box span{
+      display:block;
+      color:var(--gold);
+      font-size:0.8rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+
+    .strip-box strong{
+      font-size:1rem;
+      color:var(--text);
+    }
+
+    .section-title{
+      text-align:center;
+      margin-bottom:55px;
+    }
+
+    .section-title p{
+      color:var(--muted);
+      max-width:700px;
+      margin:16px auto 0;
+      line-height:1.7;
+    }
+
+    .section-title .mini{
+      color:var(--gold);
+      text-transform:uppercase;
+      letter-spacing:0.15em;
+      font-weight:700;
+      font-size:0.85rem;
+    }
+
+    .section-title h2{
+      font-size:clamp(2rem, 4vw, 3.3rem);
+      margin-top:12px;
+      text-transform:uppercase;
+      line-height:1.05;
+    }
+
+    .services-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:24px;
+    }
+
+    .service-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+      border:1px solid var(--line);
+      padding:28px;
+      transition:0.25s ease;
+      min-height:260px;
+    }
+
+    .service-card:hover{
+      transform:translateY(-6px);
+      border-color:rgba(210,154,73,0.35);
+    }
+
+    .service-icon{
+      width:58px;
+      height:58px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(210,154,73,0.28);
+      color:var(--gold);
+      font-size:1.4rem;
+      margin-bottom:18px;
+      background:rgba(210,154,73,0.08);
+    }
+
+    .service-card h3{
+      margin-bottom:14px;
+      font-size:1.2rem;
+      text-transform:uppercase;
+    }
+
+    .service-card p{
+      color:var(--muted);
+      line-height:1.7;
+      font-size:0.95rem;
+    }
+
+    .menu-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:24px;
+    }
+
+    .menu-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+      border:1px solid var(--line);
+      overflow:hidden;
+    }
+
+    .menu-top{
+      height:190px;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(210,154,73,0.18), transparent 40%),
+        linear-gradient(135deg, #171920, #0f1117);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-bottom:1px solid var(--line);
+    }
+
+    .mini-cup{
+      width:95px;
+      height:75px;
+      border:5px solid var(--gold);
+      position:relative;
+      background:linear-gradient(to top, #3b2415 0%, #724727 58%, #a86a3d 100%);
+    }
+
+    .mini-cup::before{
+      content:"";
+      position:absolute;
+      right:-28px;
+      top:16px;
+      width:24px;
+      height:34px;
+      border:5px solid var(--gold);
+      border-left:none;
+    }
+
+    .menu-content{
+      padding:24px;
+    }
+
+    .menu-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .menu-head h3{
+      font-size:1.12rem;
+      text-transform:uppercase;
+    }
+
+    .price{
+      color:var(--gold);
+      font-weight:800;
+      font-size:1rem;
+      white-space:nowrap;
+    }
+
+    .menu-content p{
+      color:var(--muted);
+      line-height:1.7;
+      margin-bottom:20px;
+      font-size:0.94rem;
+    }
+
+    .menu-link{
+      color:var(--gold);
+      font-weight:700;
+      text-transform:uppercase;
+      font-size:0.88rem;
+      letter-spacing:0.06em;
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:28px 0;
+      color:var(--muted);
+      background:rgba(0,0,0,0.15);
+    }
+
+    .footer-content{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    @media (max-width: 1040px){
+      .hero-grid,
+      .services-grid,
+      .menu-grid{
+        grid-template-columns:1fr;
+      }
+
+      .visual{
+        min-height:auto;
+      }
+
+      .visual-panel{
+        max-width:100%;
+      }
+    }
+
+    @media (max-width: 760px){
+      .nav-links{
+        display:none;
+      }
+
+      .hero-metrics,
+      .bottom-strip{
+        grid-template-columns:1fr;
+      }
+
+      .hero-actions{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      h1{
+        font-size:2.7rem;
+      }
+
+      .floating-card{
+        position:static;
+        margin-top:16px;
+      }
+
+      .coffee-stage{
+        height:280px;
+      }
+
+      .visual-panel{
+        min-height:auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <div class="logo">
+        <div class="logo-mark"><span>☕</span></div>
+        <span>CAFÉ NUMÉRIQUE</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#home">Accueil</a></li>
+        <li><a href="#experience">Expérience</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+
+      <a href="#" class="btn btn-outline">Connexion</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <section>
+          <div class="eyebrow">Espace café • innovation • création</div>
+          <h1>
+            LE CAFÉ
+            <br>
+            <span class="gold">NUMÉRIQUE</span>
+            <br>
+            DE DEMAIN
+          </h1>
+
+          <p class="hero-text">
+            Un univers où le café rencontre l’élégance digitale. Pensé pour les créateurs, développeurs, étudiants, entrepreneurs et esprits modernes, cet espace fusionne chaleur artisanale, esthétique premium et énergie technologique.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#experience" class="btn btn-gold">Découvrir</a>
+            <a href="#menu" class="btn btn-outline">Explorer l’ambiance</a>
+          </div>
+
+          <div class="hero-metrics">
+            <div class="metric">
+              <h3>24/7</h3>
+              <p>Ambiance connectée et productive</p>
+            </div>
+            <div class="metric">
+              <h3>Wi-Fi+</h3>
+              <p>Rapide, stable et pensé pour le travail</p>
+            </div>
+            <div class="metric">
+              <h3>Premium</h3>
+              <p>Design café, atmosphère tech, expérience forte</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="visual">
+          <div class="visual-panel">
+            <div class="panel-top">
+              <div class="panel-label">Interface sensorielle</div>
+              <div class="panel-chip">Coffee / Digital</div>
+            </div>
+
+            <div class="coffee-stage">
+              <div class="glow"></div>
+
+              <div class="floating-card card-1">
+                <h4>Atmosphère</h4>
+                <p>Lumière tamisée, textures sobres et chaleur du café.</p>
+              </div>
+
+              <div class="cup-wrap">
+                <div class="cup">
+                  <div class="steam one"></div>
+                  <div class="steam two"></div>
+                  <div class="steam three"></div>
+                </div>
+              </div>
+
+              <div class="floating-card card-2">
+                <h4>Identité</h4>
+                <p>Un lieu pensé pour coder, échanger, créer et respirer.</p>
+              </div>
+            </div>
+
+            <div class="bottom-strip">
+              <div class="strip-box">
+                <span>Signature</span>
+                <strong>Énergie & concentration</strong>
+              </div>
+              <div class="strip-box">
+                <span>Style</span>
+                <strong>Minimal, chaud, technologique</strong>
+              </div>
+              <div class="strip-box">
+                <span>Vision</span>
+                <strong>Le café devient expérience digitale</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-title">
+          <div class="mini">Expérience</div>
+          <h2>UN LIEU PENSÉ POUR LE TRAVAIL, LA CRÉATION ET LE CONFORT</h2>
+          <p>
+            Plus qu’un simple café, Café Numérique propose une expérience hybride entre lounge premium, espace connecté et point de rencontre pour les profils ambitieux.
+          </p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-icon">💻</div>
+            <h3>Espace de travail</h3>
+            <p>
+              Installe-toi dans un environnement conçu pour la concentration, les réunions légères, les projets créatifs et les sessions de travail prolongées.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">📶</div>
+            <h3>Connectivité rapide</h3>
+            <p>
+              Profite d’un accès réseau stable, d’une ambiance calme et d’une structure adaptée à ceux qui vivent entre productivité digitale et détente raffinée.
+            </p>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon">✨</div>
+            <h3>Ambiance premium</h3>
+            <p>
+              Matières sobres, tons café, lumière maîtrisée et design moderne créent une identité forte, chic et immédiatement mémorable.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu">
+      <div class="container">
+        <div class="section-title">
+          <div class="mini">Menu signature</div>
+          <h2>UNE CARTE COURTE, ÉLÉGANTE ET BIEN POSITIONNÉE</h2>
+          <p>
+            Des boissons pensées pour refléter le concept : intensité, design, précision et plaisir. Chaque produit porte une identité qui prolonge l’univers numérique du lieu.
+          </p>
+        </div>
+
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="menu-top">
+              <div class="mini-cup"></div>
+            </div>
+            <div class="menu-content">
+              <div class="menu-head">
+                <h3>Espresso Code</h3>
+                <div class="price">2 500 FCFA</div>
+              </div>
+              <p>
+                Un café court, intense et net. Idéal pour démarrer fort, rester lucide et entrer rapidement dans une session productive.
+              </p>
+              <a href="#" class="menu-link">Commander</a>
+            </div>
+          </article>
+
+          <article class="menu-card">
+            <div class="menu-top">
+              <div class="mini-cup"></div>
+            </div>
+            <div class="menu-content">
+              <div class="menu-head">
+                <h3>Latte Cloud</h3>
+                <div class="price">3 500 FCFA</div>
+              </div>
+              <p>
+                Une boisson plus douce, plus ronde, parfaite pour les moments de réflexion, les échanges créatifs et les rendez-vous inspirants.
+              </p>
+              <a href="#" class="menu-link">Commander</a>
+            </div>
+          </article>
+
+          <article class="menu-card">
+            <div class="menu-top">
+              <div class="mini-cup"></div>
+            </div>
+            <div class="menu-content">
+              <div class="menu-head">
+                <h3>Mocha Data</h3>
+                <div class="price">4 000 FCFA</div>
+              </div>
+              <p>
+                Un mélange plus gourmand avec du caractère. L’équilibre entre énergie, douceur et identité visuelle forte.
+              </p>
+              <a href="#" class="menu-link">Commander</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <p>© 2026 Café Numérique — Tous droits réservés.</p>
+      <p>Design premium • Univers café • ADN digital</p>
+    </div>
+  </footer>
+</body>
+</html>
